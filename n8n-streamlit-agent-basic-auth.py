@@ -7,7 +7,7 @@ import hmac
 import base64
 
 # Configuration and Settings
-WEBHOOK_URL = "https://agentonline-u29564.vm.elestio.app/webhook-test/42e650d7-3e50-4dda-bf4f-d3e16761b1cd"
+WEBHOOK_URL = "https://agentonline-u29564.vm.elestio.app/webhook/42e650d7-3e50-4dda-bf4f-d3e16761b1cd"
 BEARER_TOKEN = "__n8n_BLANK_VALUE_e5362baf-c777-4d57-a609-6eaf1f9e87f6"
 
 # Authentication credentials (in production, use environment variables)
