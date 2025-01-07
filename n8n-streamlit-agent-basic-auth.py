@@ -4,8 +4,8 @@ import uuid
 import os
 from typing import Tuple
 
-# Constants
-WEBHOOK_URL = "https://agentonline-u29564.vm.elestio.app/webhook/ba43778d-3a11-48fc-ac91-bb4222987045/chat"
+# Constants - Fixed URL format
+WEBHOOK_URL = "https://agentonline-u29564.vm.elestio.app/webhook/ba43778d-3a11-48fc-ac91-bb4222987045/chat/"  # Added trailing slash
 BEARER_TOKEN = "__n8n_BLANK_VALUE_e5362baf-c777-4d57-a609-6eaf1f9e87f6"
 
 # Authentication credentials
@@ -57,11 +57,25 @@ def send_message_to_llm(session_id: str, message: str) -> str:
         "chatInput": message
     }
     try:
+        # Added debug logging
+        st.debug(f"Sending request to: {WEBHOOK_URL}")
+        st.debug(f"Headers: {headers}")
+        st.debug(f"Payload: {payload}")
+        
         response = requests.post(WEBHOOK_URL, json=payload, headers=headers)
+        
+        # Added response debugging
+        st.debug(f"Response status code: {response.status_code}")
+        st.debug(f"Response content: {response.text}")
+        
         response.raise_for_status()
         return response.json()["output"]
     except requests.exceptions.RequestException as e:
+        st.error(f"Error communicating with server: {str(e)}")
         return f"Error: {str(e)}"
+    except ValueError as e:
+        st.error(f"Error parsing response: {str(e)}")
+        return "Error: Invalid response from server"
 
 def initialize_session_state():
     """Initialize session state variables"""
@@ -73,6 +87,19 @@ def initialize_session_state():
 def display_chat_interface():
     """Display the chat interface"""
     st.title("Secure Chat with LLM")
+    
+    # Added server status indicator
+    with st.sidebar:
+        st.write("Server Status:")
+        try:
+            # Simple health check
+            response = requests.get(WEBHOOK_URL.rstrip("/") + "/health")
+            if response.ok:
+                st.success("Connected")
+            else:
+                st.error("Server Error")
+        except:
+            st.error("Cannot connect to server")
     
     # Display chat messages
     for message in st.session_state.messages:
