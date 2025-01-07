@@ -3,7 +3,7 @@ import requests
 import uuid
 
 # Constants
-WEBHOOK_URL = "https://agentonline-u29564.vm.elestio.app/webhook/613c80ab-b30e-4580-835c-070d657305bc/chat"
+WEBHOOK_URL = "https://agentonline-u29564.vm.elestio.app/webhook/42e650d7-3e50-4dda-bf4f-d3e16761b1cd"
 BEARER_TOKEN = "__n8n_BLANK_VALUE_e5362baf-c777-4d57-a609-6eaf1f9e87f6"
 
 def generate_session_id():
